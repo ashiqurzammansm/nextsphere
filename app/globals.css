@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base theme */
+:root { --bg: #0b1220; --fg: #f8fafc; }
+body { @apply bg-white text-slate-900 dark:bg-[#0b1220] dark:text-slate-100 antialiased; }
+
+.container { @apply max-w-6xl mx-auto px-4; }
+
+/* Selection */
+::selection { background: rgba(37,99,235,0.25); }
+
+/* Buttons */
+.btn {
+    @apply inline-flex items-center gap-2 rounded-3xl px-6 py-3 font-medium transition
+    shadow-[0_10px_30px_-10px_rgba(37,99,235,0.25)] hover:shadow-[0_0_0_4px_rgba(37,99,235,0.15),0_25px_60px_-20px_rgba(59,130,246,0.55)] active:scale-[0.98];
+}
+.btn-primary { @apply text-white; background: linear-gradient(135deg, #2563eb, #60a5fa); }
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-ghost { @apply border border-slate-300 dark:border-slate-700 bg-transparent; }
+
+/* Cards (glass look) */
+.card {
+    @apply rounded-3xl border border-white/10 p-6 shadow-[0_12px_50px_-20px_rgba(0,0,0,0.35)] backdrop-blur;
+    background: linear-gradient( to bottom right, rgba(255,255,255,0.7), rgba(255,255,255,0.35) );
+}
+.dark .card {
+    background: linear-gradient( to bottom right, rgba(17,24,39,0.7), rgba(17,24,39,0.35) );
+}
+
+/* Sections */
+section { @apply py-16; }
+
+/* Fancy underline */
+.fancy-underline { background-image: linear-gradient(transparent 65%, rgba(37,99,235,0.35) 0); }
+
+/* Subtle divider */
+.hr { @apply h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-white/10 my-10; }
+
+/* Shimmer placeholder */
+.shimmer { position: relative; overflow: hidden; }
+.shimmer::after {
+    content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2.5s linear infinite;
+}
+
+/* Hero ambient background (keeps blue theme) */
+.bg-hero-gradient {
+    background:
+            radial-gradient(1200px 600px at 50% -10%, rgba(37,99,235,0.25), transparent 60%),
+            radial-gradient(800px 400px at 80% 10%, rgba(96,165,250,0.22), transparent 60%),
+            radial-gradient(1000px 500px at 20% 0%, rgba(59,130,246,0.18), transparent 60%);
+}
+
+/* Animations */
+@keyframes shimmer { 0% { transform: translateX(-100%) } 100% { transform: translateX(100%) } }
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+
+/* ----- Animated Gradient Border (blue theme) ----- */
+
+/* Register a custom property for smooth angle animation */
+@property --angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+@keyframes rotate {
+    to { --angle: 360deg; }
+}
+
+/* Usage: wrap content with .gradient-border > .inner  */
+.gradient-border {
+    position: relative;
+    border-radius: 1.25rem; /* ~2xl */
+    isolation: isolate; /* ensure pseudo sits behind inner content */
+}
+.gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* full box */
+    padding: 2px; /* border thickness */
+    border-radius: inherit;
+
+    /* Pure blue family only: brand -> light -> white -> brand (no color theme change) */
+    background: conic-gradient(
+            from var(--angle),
+            #2563eb 0%,
+            #60a5fa 25%,
+            #ffffff 50%,
+            #60a5fa 75%,
+            #2563eb 100%
+    );
+
+    /* Carve the middle out so it looks like a border */
+    -webkit-mask:
+            linear-gradient(#000 0 0) content-box,
+            linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    animation: rotate 8s linear infinite;
+    z-index: -1;
+}
+.gradient-border > .inner {
+    position: relative;
+    border-radius: inherit;
+    background: linear-gradient( to bottom right, rgba(255,255,255,0.7), rgba(255,255,255,0.35) );
+    backdrop-filter: blur(8px);
+}
+.dark .gradient-border > .inner {
+    background: linear-gradient( to bottom right, rgba(17,24,39,0.7), rgba(17,24,39,0.35) );
+}
+
+/* Small pulse for the chat bubble */
+@keyframes ping-soft {
+    0% { box-shadow: 0 0 0 0 rgba(37,99,235,0.45); }
+    70% { box-shadow: 0 0 0 14px rgba(37,99,235,0); }
+    100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+}
+.ping-soft { animation: ping-soft 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }

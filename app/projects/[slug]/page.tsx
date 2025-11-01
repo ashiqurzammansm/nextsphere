@@ -1,13 +1,26 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
 
+const KNOWN = Array.from({ length: 6 }).map((_, i) => `project-${i + 1}`);
+
+function imageFor(slug: string, large = false) {
+    // stable placeholder image per slug
+    const seed = encodeURIComponent(slug);
+    return `https://picsum.photos/seed/${seed}/${large ? "1200/800" : "1000/600"}`;
+}
+
 export default function ProjectDetail({ params }: { params: { slug: string } }) {
-    const i = Number(params.slug.split("-").pop()) - 1;
-    if (isNaN(i) || i < 0 || i > 5) return notFound();
+    const slug = params.slug;
+    const name =
+        KNOWN.includes(slug)
+            ? `Project ${slug.split("-").pop()}`
+            : slug
+                .split("-")
+                .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+                .join(" ");
 
     const data = {
-        name: `Project ${i + 1}`,
-        image: `https://picsum.photos/seed/nextsphere${i}/1200/800`,
+        name,
+        image: imageFor(slug, true),
         description:
             "This is a placeholder project page. Replace with your real case study, challenges, solutions, and images.",
         tech: ["Next.js", "MongoDB", "Tailwind"],
@@ -17,16 +30,16 @@ export default function ProjectDetail({ params }: { params: { slug: string } }) 
     return (
         <section>
             <div className="container">
-                {/* Breadcrumbs */}
                 <nav className="text-sm mb-4 text-slate-500">
-                    <Link href="/projects" className="hover:underline">Projects</Link>
+                    <Link href="/projects" className="hover:underline">
+                        Projects
+                    </Link>
                     <span className="mx-2">/</span>
                     <span className="text-slate-700 dark:text-slate-300">{data.name}</span>
                 </nav>
 
                 <h1 className="text-3xl md:text-4xl font-bold">{data.name}</h1>
 
-                {/* Hero image with animated border */}
                 <div className="mt-6 gradient-border rounded-3xl">
                     <div className="inner rounded-3xl overflow-hidden">
                         <img src={data.image} alt={data.name} className="w-full object-cover" />

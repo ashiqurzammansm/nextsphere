@@ -1,26 +1,41 @@
-import { dbConnect } from '@/lib/db';
-import Inquiry from '@/models/Inquiry';
-import nodemailer from 'nodemailer';
+import { NextRequest, NextResponse } from "next/server";
+import { connectDB } from "@/lib/db";
+import Inquiry from "@/models/Inquiry";
 
-export async function POST(req: Request) {
-  const body = await req.json();
-  await dbConnect();
-  const saved = await Inquiry.create(body);
+export const runtime = "nodejs";
 
-  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: false,
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-    });
-    await transporter.sendMail({
-      from: 'NextSphere <no-reply@nextsphere.app>',
-      to: process.env.BUSINESS_EMAIL || 'support@nextsphere.app',
-      subject: 'New Inquiry from NextSphere Website',
-      text: `${body.name} (${body.email}) about ${body.service}:\n${body.message}`
-    });
-  }
+export async function POST(req: NextRequest) {
+    try {
+        await connectDB();
+        const body = await req.json();
 
-  return new Response(JSON.stringify({ ok: true, id: saved._id }), { status: 201 });
+        // Honeypot: if "company" is filled, silently treat as success
+        if (typeof body.company === "string" && body.company.trim().length > 0) {
+            return NextResponse.json({ ok: true });
+        }
+
+        if (!body.name || !body.email || !body.message) {
+            return NextResponse.json({ ok: false, error: "Missing required fields" }, { status: 400 });
+        }
+
+        const doc = await Inquiry.create({
+            name: body.name,
+            email: body.email,
+            phone: body.phone || "",
+            category: body.category || "General inquiry",
+            service: body.service || "",
+            budget: body.budget || "",
+            timeline: body.timeline || "",
+            role: body.role || "",
+            message: body.message,
+        });
+
+        return NextResponse.json({ ok: true, id: doc._id });
+    } catch (err: any) {
+        console.error("POST /api/inquiries failed:", err?.message || err);
+        return NextResponse.json(
+            { ok: false, error: err?.message || "Failed to save inquiry" },
+            { status: 500 }
+        );
+    }
 }

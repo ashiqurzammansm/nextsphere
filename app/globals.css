@@ -1,122 +1,215 @@
+/* PATH: app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Base theme */
-:root { --bg: #0b1220; --fg: #f8fafc; }
-body { @apply bg-white text-slate-900 dark:bg-[#0b1220] dark:text-slate-100 antialiased; }
+/* ===========================================
+   🌐 GLOBAL STYLES
+   =========================================== */
+:root {
+    --color-bg: #f8fafc;
+    --color-bg-dark: #0f172a;
+    --color-text: #0f172a;
+    --color-text-light: #e2e8f0;
+    --radius-xl: 1rem;
 
-.container { @apply max-w-6xl mx-auto px-4; }
+    /* helpers */
+    --white-10: rgba(255, 255, 255, 0.10);
+    --white-15: rgba(255, 255, 255, 0.15);
+    --white-30: rgba(255, 255, 255, 0.30);
+    --white-50: rgba(255, 255, 255, 0.50);
+    --white-70: rgba(255, 255, 255, 0.70);
 
-/* Selection */
-::selection { background: rgba(37,99,235,0.25); }
-
-/* Buttons */
-.btn {
-    @apply inline-flex items-center gap-2 rounded-3xl px-6 py-3 font-medium transition
-    shadow-[0_10px_30px_-10px_rgba(37,99,235,0.25)] hover:shadow-[0_0_0_4px_rgba(37,99,235,0.15),0_25px_60px_-20px_rgba(59,130,246,0.55)] active:scale-[0.98];
+    --slate-900-50: rgba(15, 23, 42, 0.50);
+    --blue-50: #eff6ff;
+    --blue-600: #2563eb;
+    --blue-700: #1d4ed8;
+    --blue-400: #60a5fa;
+    --slate-800: #1f2937;
 }
-.btn-primary { @apply text-white; background: linear-gradient(135deg, #2563eb, #60a5fa); }
-.btn-primary:hover { filter: brightness(1.05); }
-.btn-ghost { @apply border border-slate-300 dark:border-slate-700 bg-transparent; }
 
-/* Cards (glass look) */
+html,
+body {
+    @apply min-h-screen scroll-smooth antialiased;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+body.dark {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+}
+
+.container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl;
+}
+
+/* ===========================================
+   ✨ BASE UI ELEMENTS
+   =========================================== */
+h1, h2, h3, h4, h5, h6 { @apply font-bold text-slate-900 dark:text-slate-100; }
+p { @apply text-slate-700 dark:text-slate-300 leading-relaxed; }
+
+a { @apply transition-colors; color: var(--blue-600); }
+a:hover { color: var(--blue-700); }
+
+hr, .hr { @apply border-t my-4; border-color: var(--white-10); }
+
+/* ===========================================
+   🧩 BUTTONS
+   =========================================== */
+.btn { @apply inline-flex items-center justify-center px-4 py-2 rounded-xl font-medium transition-all; }
+
+.btn-primary { @apply text-white shadow-md hover:shadow-lg; background-color: var(--blue-600); }
+.btn-primary:hover { background-color: var(--blue-700); }
+
+.btn-ghost {
+    @apply border;
+    color: var(--blue-600);
+    border-color: rgba(59,130,246,0.4);
+    background-color: transparent;
+}
+.btn-ghost:hover { background-color: var(--blue-50); }
+:where(.dark) .btn-ghost:hover { background-color: rgba(30,41,59,0.6); }
+
+/* Disabled state */
+button[disabled] { @apply opacity-60 cursor-not-allowed; }
+
+/* ===========================================
+   🪩 CARD COMPONENT
+   =========================================== */
 .card {
-    @apply rounded-3xl border border-white/10 p-6 shadow-[0_12px_50px_-20px_rgba(0,0,0,0.35)] backdrop-blur;
-    background: linear-gradient( to bottom right, rgba(255,255,255,0.7), rgba(255,255,255,0.35) );
+    @apply rounded-2xl p-6 shadow-sm backdrop-blur-md border;
+    background-color: rgba(255,255,255,0.5);
+    border-color: var(--white-15);
 }
-.dark .card {
-    background: linear-gradient( to bottom right, rgba(17,24,39,0.7), rgba(17,24,39,0.35) );
+:where(.dark) .card { background-color: rgba(255,255,255,0.10); }
+
+/* ===========================================
+   💠 INPUTS
+   =========================================== */
+input, select, textarea {
+    @apply rounded-xl px-3 py-2 w-full outline-none transition-all border;
+    border-color: rgb(100,116,139);
+    background-color: rgba(255,255,255,0.60);
 }
-
-/* Sections */
-section { @apply py-16; }
-
-/* Fancy underline */
-.fancy-underline { background-image: linear-gradient(transparent 65%, rgba(37,99,235,0.35) 0); }
-
-/* Subtle divider */
-.hr { @apply h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-white/10 my-10; }
-
-/* Shimmer placeholder */
-.shimmer { position: relative; overflow: hidden; }
-.shimmer::after {
-    content: ""; position: absolute; inset: 0; transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    animation: shimmer 2.5s linear infinite;
+:where(.dark) input, :where(.dark) select, :where(.dark) textarea {
+    border-color: rgb(51,65,85);
+    background-color: rgba(15,23,42,0.40);
 }
+input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px var(--blue-600); }
 
-/* Hero ambient background (keeps blue theme) */
+/* ===========================================
+   🎨 BACKGROUND GRADIENTS
+   =========================================== */
 .bg-hero-gradient {
-    background:
-            radial-gradient(1200px 600px at 50% -10%, rgba(37,99,235,0.25), transparent 60%),
-            radial-gradient(800px 400px at 80% 10%, rgba(96,165,250,0.22), transparent 60%),
-            radial-gradient(1000px 500px at 20% 0%, rgba(59,130,246,0.18), transparent 60%);
+    /* linter-friendly version */
+    background-image:
+            radial-gradient(circle at top left, rgba(59,130,246,0.15), transparent 70%),
+            radial-gradient(circle at bottom right, rgba(96,165,250,0.15), transparent 70%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
-/* Animations */
-@keyframes shimmer { 0% { transform: translateX(-100%) } 100% { transform: translateX(100%) } }
-@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
-
-/* ----- Animated Gradient Border (blue theme) ----- */
-
-/* Register a custom property for smooth angle animation */
-@property --angle {
-    syntax: '<angle>';
-    inherits: false;
-    initial-value: 0deg;
-}
-@keyframes rotate {
-    to { --angle: 360deg; }
+/* Helper for hero background images */
+.hero-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-/* Usage: wrap content with .gradient-border > .inner  */
-.gradient-border {
+/* ===========================================
+   🌈 PROJECT CARD (animated gradient border)
+   =========================================== */
+.project-card {
     position: relative;
-    border-radius: 1.25rem; /* ~2xl */
-    isolation: isolate; /* ensure pseudo sits behind inner content */
+    border-radius: 1rem;
+    overflow: hidden;
+    background: rgba(255,255,255,0.6);
+    transition: all 0.3s ease;
 }
-.gradient-border::before {
+:where(.dark) .project-card { background: rgba(255,255,255,0.08); }
+
+.project-card::before {
     content: "";
     position: absolute;
-    inset: 0; /* full box */
-    padding: 2px; /* border thickness */
+    inset: 0;
+    padding: 2px;
     border-radius: inherit;
+    background: linear-gradient(120deg, #2563eb, #60a5fa, #2563eb);
+    background-size: 300% 300%;
+    animation: borderFlow 6s linear infinite;
 
-    /* Pure blue family only: brand -> light -> white -> brand (no color theme change) */
-    background: conic-gradient(
-            from var(--angle),
-            #2563eb 0%,
-            #60a5fa 25%,
-            #ffffff 50%,
-            #60a5fa 75%,
-            #2563eb 100%
-    );
-
-    /* Carve the middle out so it looks like a border */
-    -webkit-mask:
-            linear-gradient(#000 0 0) content-box,
-            linear-gradient(#000 0 0);
+    /* linter-safe webkit mask */
+    -webkit-mask-image: linear-gradient(#fff 0 0), linear-gradient(#fff 0 0);
+    -webkit-mask-origin: content-box;
+    -webkit-mask-clip: content-box;
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-
-    animation: rotate 8s linear infinite;
-    z-index: -1;
-}
-.gradient-border > .inner {
-    position: relative;
-    border-radius: inherit;
-    background: linear-gradient( to bottom right, rgba(255,255,255,0.7), rgba(255,255,255,0.35) );
-    backdrop-filter: blur(8px);
-}
-.dark .gradient-border > .inner {
-    background: linear-gradient( to bottom right, rgba(17,24,39,0.7), rgba(17,24,39,0.35) );
 }
 
-/* Small pulse for the chat bubble */
-@keyframes ping-soft {
-    0% { box-shadow: 0 0 0 0 rgba(37,99,235,0.45); }
-    70% { box-shadow: 0 0 0 14px rgba(37,99,235,0); }
-    100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+@keyframes borderFlow {
+    0%   { background-position: 0 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
 }
-.ping-soft { animation: ping-soft 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* ===========================================
+   🧭 NAVIGATION BAR
+   =========================================== */
+header {
+    @apply backdrop-blur-md border-b;
+    background-color: var(--white-70);
+    border-color: var(--white-10);
+}
+:where(.dark) header { background-color: var(--slate-900-50); }
+
+nav a { @apply px-3 py-2 rounded-lg transition-colors; }
+nav a:hover { background-color: var(--blue-50); }
+:where(.dark) nav a:hover { background-color: var(--slate-800); }
+
+/* ===========================================
+   ⚙️ FOOTER POLISH
+   =========================================== */
+footer {
+    @apply text-slate-700 dark:text-slate-300;
+    background-image: linear-gradient(to top, var(--white-50), transparent);
+}
+:where(.dark) footer { background-image: linear-gradient(to top, var(--slate-900-50), transparent); }
+
+.footer-link { @apply hover:underline; transition: opacity .2s ease; }
+.footer-link:hover { opacity: .9; }
+
+.footer-icon {
+    @apply inline-flex items-center justify-center h-9 w-9 rounded-full;
+    border: 1px solid var(--white-15);
+    color: rgb(71,85,105);
+    background-color: var(--white-30);
+    transition: transform .15s ease, box-shadow .25s ease;
+}
+:where(.dark) .footer-icon { color: #e5e7eb; background-color: rgba(255,255,255,0.10); }
+.footer-icon:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -12px rgba(37,99,235,0.45); }
+
+/* ===========================================
+   💬 CHAT BUBBLE (floating button)
+   =========================================== */
+.chat-bubble {
+    @apply fixed bottom-6 right-6 z-50 flex items-center justify-center h-14 w-14 rounded-full shadow-lg;
+    background-image: linear-gradient(45deg, var(--blue-600), var(--blue-400));
+    color: white;
+    animation: bubbleFloat 3s ease-in-out infinite;
+}
+@keyframes bubbleFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+
+/* ===========================================
+   🌊 FLOAT ANIMATION (for Hero blobs)
+   =========================================== */
+@keyframes float { 0% { transform: translateY(0) } 50% { transform: translateY(-10px) } 100% { transform: translateY(0) } }
+
+/* ===========================================
+   🌓 DARK MODE UTILITIES
+   =========================================== */
+@media (prefers-color-scheme: dark) {
+    body { background-color: var(--color-bg-dark); color: var(--color-text-light); }
+}

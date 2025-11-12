@@ -17,7 +17,7 @@ type NewService = {
 export async function GET() {
     await dbConnect();
 
-    // Use options-style lean to avoid TS overload issues
+    // ✅ TS-safe: use lean via options (avoids the .lean() overload issue)
     let items = await Service.find({}, null, { lean: true }).exec();
 
     if (items.length > 0) {

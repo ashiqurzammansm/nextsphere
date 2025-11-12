@@ -2,10 +2,10 @@
 import { dbConnect } from '@/lib/db';
 import Service from '@/models/Service';
 
-// run on Node runtime (Mongo/JWT aren't Edge-safe)
+// Ensure Node runtime (Mongo/JWT libs aren’t Edge-safe)
 export const runtime = 'nodejs';
 
-// insert shape (no _id/timestamps)
+// Insert shape (no _id/timestamps)
 type NewService = {
     title: string;
     slug: string;
@@ -17,13 +17,11 @@ type NewService = {
 export async function GET() {
     await dbConnect();
 
-    // ✅ TS-safe: lean via options (NOT .find().lean())
-    // If your editor still complains, you can temporarily use `(Service as any)` below.
-    let items = await Service.find({}, null, { lean: true }).exec();
+    // ✅ Use options-style lean AND cast model once to avoid TS overload issues
+    const S = Service as any;
 
-    if (items.length > 0) {
-        return Response.json(items);
-    }
+    let items = await S.find({}, null, { lean: true }).exec();
+    if (items?.length) return Response.json(items);
 
     const defaults: NewService[] = [
         { title: 'Web Design & Development', slug: 'web-design-development', summary: 'Modern websites with Next.js & SEO best practices.', features: ['Next.js','SEO','Fast & secure'] },
@@ -34,8 +32,8 @@ export async function GET() {
         { title: 'Cyber Security', slug: 'cyber-security', summary: 'Audits & hardening.', features: ['Audits','Hardening','Training'] },
     ];
 
-    await Service.insertMany(defaults);
+    await S.insertMany(defaults);
 
-    items = await Service.find({}, null, { lean: true }).exec();
+    items = await S.find({}, null, { lean: true }).exec();
     return Response.json(items);
 }

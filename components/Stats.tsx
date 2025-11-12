@@ -1,3 +1,4 @@
+// PATH: components/Stats.tsx
 const stats = [
     { value: "30+", label: "Projects delivered" },
     { value: "10/10", label: "Client happiness" },

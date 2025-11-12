@@ -1,3 +1,4 @@
+// PATH: app/page.tsx
 import Hero from '@/components/Hero';
 import Logos from '@/components/Logos';
 import ServicesPreview from '@/components/ServicesPreview';

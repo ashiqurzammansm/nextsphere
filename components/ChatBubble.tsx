@@ -1,3 +1,4 @@
+// PATH: components/ChatBubble.tsx
 'use client';
 
 export default function ChatBubble() {

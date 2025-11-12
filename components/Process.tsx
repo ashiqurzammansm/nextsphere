@@ -1,3 +1,4 @@
+// PATH: components/Process.tsx
 const steps = [
     { n: 1, title: "Discover", desc: "We understand goals, users, and constraints." },
     { n: 2, title: "Design", desc: "Wireframes → hi-fi UI → interactions." },

@@ -1,3 +1,4 @@
+// PATH: app/about/page.tsx
 export default function AboutPage() {
     const team = [
         { name: "Ava Thompson", role: "CEO", avatar: "https://i.pravatar.cc/120?img=1" },

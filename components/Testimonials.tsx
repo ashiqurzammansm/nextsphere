@@ -1,3 +1,4 @@
+// PATH: components/Testimonials.tsx
 const items = [
     { name: "Jordan M.", role: "Startup Founder", text: "They moved fast and the polish is incredible. We launched on time!" },
     { name: "Priya S.", role: "Product Lead", text: "Great UX sense, clean code, and very responsive team." },

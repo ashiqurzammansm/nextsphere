@@ -1,3 +1,4 @@
+// PATH: components/CTA.tsx
 export default function CTA() {
     return (
         <section className="text-white">

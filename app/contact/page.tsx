@@ -1,3 +1,4 @@
+// PATH: app/contact/page.tsx
 'use client';
 import { useState, useMemo } from 'react';
 
@@ -125,15 +126,15 @@ export default function ContactPage() {
                             </div>
 
                             <div>
-                <textarea
-                    name="message"
-                    placeholder="Tell us about your project… (goals, features, timeline)"
-                    className="border rounded-xl p-3 bg-transparent w-full min-h-32"
-                    maxLength={max}
-                    required
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                />
+                                <textarea
+                                    name="message"
+                                    placeholder="Tell us about your project… (goals, features, timeline)"
+                                    className="border rounded-xl p-3 bg-transparent w-full min-h-32"
+                                    maxLength={max}
+                                    required
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                />
                                 <div className="mt-1 text-xs text-slate-500">{remaining} characters left</div>
                             </div>
 

@@ -1,3 +1,4 @@
+// PATH: models/Inquiry.ts
 import mongoose, { Schema, InferSchemaType } from "mongoose";
 
 const InquirySchema = new Schema(

@@ -1,3 +1,4 @@
+// PATH: components/ServicesPreview.tsx
 import Link from "next/link";
 
 const services = [

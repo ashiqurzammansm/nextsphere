@@ -1,3 +1,4 @@
+// PATH: components/ProjectsPreview.tsx
 import Link from 'next/link';
 
 const projects = Array.from({ length: 3 }).map((_, i) => ({

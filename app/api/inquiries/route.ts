@@ -1,3 +1,4 @@
+// PATH: app/api/inquiries/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Inquiry from "@/models/Inquiry";

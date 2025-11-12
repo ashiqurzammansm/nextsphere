@@ -1,3 +1,4 @@
+// PATH: app/projects/[slug]/page.tsx
 import Link from "next/link";
 
 const KNOWN = Array.from({ length: 6 }).map((_, i) => `project-${i + 1}`);

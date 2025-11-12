@@ -1,3 +1,4 @@
+// PATH: lib/db.ts
 import mongoose from "mongoose";
 
 // Read & sanitize the URI to avoid hidden chars / quotes / BOM issues
@@ -41,4 +42,9 @@ export async function connectDB() {
     }
     cached.conn = await cached.promise;
     return cached.conn;
+}
+
+// Back-compat wrapper for routes importing dbConnect()
+export async function dbConnect() {
+    return connectDB();
 }

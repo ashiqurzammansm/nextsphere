@@ -70,7 +70,7 @@ export default function Hero() {
                     </div>
                 </div>
 
-                {/* Decorative floating blobs (uses Tailwind keyframes) */}
+                {/* Decorative floating blobs */}
                 <div className="pointer-events-none relative">
                     <div className="absolute left-1/4 top-12 h-24 w-24 rounded-full bg-blue-400/25 blur-3xl animate-floatFast" />
                     <div className="absolute right-1/5 top-24 h-28 w-28 rounded-full bg-purple-400/25 blur-3xl animate-floatSlow" />

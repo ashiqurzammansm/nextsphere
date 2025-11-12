@@ -1,3 +1,4 @@
+// PATH: components/WhyUs.tsx
 const items = [
     { title: "Pixel-perfect UI", desc: "Clean, modern visuals with smooth interactions.", icon: "🎨" },
     { title: "Built for speed", desc: "Next.js + caching best practices for fast loads.", icon: "⚡" },
